@@ -1,5 +1,5 @@
 if(1){ 
-   Ip = "http://47.104.72.63:8080";
+   Ip = "api.duihuanxitong.com:8080";
 }else{
    Ip = "http://192.168.0.114:8080";
 }
