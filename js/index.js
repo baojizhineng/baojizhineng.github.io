@@ -1,5 +1,5 @@
 if(1){ 
-   Ip = "http://api.duihuanxitong.com:8080";
+   Ip = "https://exchange.gcblock.cn/api";
 }else{
    Ip = "http://192.168.0.114:8080";
 }
