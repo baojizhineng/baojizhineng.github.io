@@ -17,33 +17,32 @@ $(function () {
     },
   });
 
-    $.get(Ip + "/system/out/cppOutRechargeList",function(result){
-      if(result.code == 401){
-        $.tooltip(result.msg);
-        return;
-      }
-      if (result.code != 200) {
-        $.tooltip(result.msg);
-        return;
-      }
-     console.log("result",result)
+  //   $.get(Ip + "/system/out/cppOutRechargeList",function(result){
+  //     if(result.code == 401){
+  //       $.tooltip(result.msg);
+  //       return;
+  //     }
+  //     if (result.code != 200) {
+  //       $.tooltip(result.msg);
+  //       return;
+  //     }
+  //    console.log("result",result)
 	
-	for(index in result.rows ){
-		let html = " <tr><td>id</td><td>toAddress</td><td>cashStatus</td>amount<td>createTime</td></tr>"
-		let data  = result.rows[index]
-		html = html.replace("id",data.id)
-		html = html.replace("cashStatus",data.cashStatus?"已完成":"提现中")
-		html = html.replace("toAddress",data.toAddress)
-		html = html.replace("amount",data.amount)
-		html = html.replace("createTime",data.createTime)
-		 $("#liebiao").append(html)
-	}
+	// for(index in result.rows ){
+	// 	let html = " <tr><td>id</td><td>toAddress</td><td>cashStatus</td>amount<td>createTime</td></tr>"
+	// 	let data  = result.rows[index]
+	// 	html = html.replace("id",data.id)
+	// 	html = html.replace("cashStatus",data.cashStatus?"已完成":"提现中")
+	// 	html = html.replace("toAddress",data.toAddress)
+	// 	html = html.replace("amount",data.amount)
+	// 	html = html.replace("createTime",data.createTime)
+	// 	 $("#liebiao").append(html)
+	// }
 	
 	
-    });
+  //   });
   
    
-
 
 
 });
