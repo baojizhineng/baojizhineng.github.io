@@ -206,6 +206,10 @@ $(function () {
 
 
   $(".Withdraw").hDialog({ title: "提现",modalHide: false,height: 400});
+  
+  $(".cashList").on("click",function(){
+	  window.open("./cashOutList.html")
+  });
 
   //提现
   $(".submitBtn").on("click", function () {
@@ -350,3 +354,6 @@ clipboard.on('success', function(e) {
     $.tooltip("复制成功", 1500, true);
 });
 
+$.get(Ip + "/system/registry/getUserInfo",function(result){
+    console.log("result:",result)
+	})
