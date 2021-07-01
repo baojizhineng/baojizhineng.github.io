@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="icon/iconfont.css">
 	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/animate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    
 	 <script src="js/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
@@ -14,7 +16,15 @@
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
+          <style>
+            .el-card.box-card{
+                  margin: 130px;
+            }
+            .pagination {
+                float: right;
+                margin: 20px;
+            }
+        </style>
 </head>
 <!--
 超小设备：尺寸小于768px，class的前缀是col-xs-，12列
@@ -24,25 +34,162 @@
 
 -->
 <body>
-	<div style="color: white" class="login-box">
+	<!-- <div style="color: white" class="login-box">
 <table style="margin-top: 20%;" class="table table-bordered">
     <tbody id="liebiao" style="text-align: center;font-size: 14px;">
    <tr><td>序列</td><td>提现地址</td><td>状态</td>金额<td>创建时间</td></tr>
 
     </tbody>
-</table>
+</table> 
+</div>-->
+<div id="app">
+     <el-card class="box-card">
+        <el-form :inline="true" ref="ruleForm" :model="formInline" class="demo-form-inline">
+            <el-form-item>
+              <el-input v-model="formInline.toAddress" placeholder="提现地址"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input v-model="formInline.hash" placeholder="hahs值"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-select v-model="formInline.cashStatus" placeholder="状态" clearable>
+                  <el-option label="完成" value="1"></el-option>
+                  <el-option label="未完成" value="0"></el-option>
+                </el-select>
+              </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit('ruleForm')">查询</el-button>
+            </el-form-item>
+          </el-form>
+                <el-table
+                :data="tableData"
+                style="width: 100%">
+                <el-table-column
+                type="index"
+                label="序号"
+                width="100">
+              </el-table-column>
+                <el-table-column
+                  prop="toAddress"
+                  label="提现地址"
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="cashStatus"
+                  label="状态"
+                  width="180">
+                  <template scope="scope">                    
+                    <p v-if="scope.row.cashStatus == true">完成</p>
+                    <p v-if="scope.row.cashStatus == false">未完成</p>
+                </template>
+                </el-table-column>
+                <el-table-column
+                prop="hash"
+                label="交易hash"
+                width="180">
+              </el-table-column>
+                <el-table-column
+                  prop="amount"
+                  label="金额">
+                </el-table-column>
+                 <el-table-column
+                  prop="createTime"
+                  label="创建时间">
+                </el-table-column>
+                <el-table-column
+                prop="updateTime"
+                label="完成时间">
+              </el-table-column>
+               </el-table>
+              </el-table>
+              <el-pagination
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="100"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total">
+            </el-pagination>
+              
+      </el-card>
+     
 </div>
 </body>
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="js/list.js"></script> -->
+<script>
+axios.defaults.headers.common['Authorization'] =  "Bearer " + localStorage.getItem("token")
+   var app =  new Vue({
+      el: '#app',
+      data: {
+           formInline:{
+                toAddress: '',
+                hash:'',
+                cashStatus: ''
+            },
+            tableData:[],
+           Ip:'https://exchange.gcblock.cn/api',
+            currentPage:1,
+            total:'',
+            pageNum:1,
+            pageSize:10,
+            flagurl:false,
+          },
+      created() {
+          this.cppOutRechargeList()
+      },
+      methods: {
+        onSubmit(formName){
+            this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.flagurl = true
+            this.cppOutRechargeList()
+          } else {
+            return false;
+          }
+        });
+     
+            
+        },
+        handleSizeChange(val){
+            this.pageSize = val
+            this.cppOutRechargeList()
+        },
+        handleCurrentChange(val){
+            this.currentPage = val
+            this.cppOutRechargeList()
+        },
+        cppOutRechargeList() {
+            let url =''
+            if(this.flagurl){
+                url = `${this.Ip}/system/out/cppOutRechargeList?pageNum=${this.currentPage}&pageSize=${this.pageSize}&toAddress=${this.formInline.toAddress}&hash=${this.formInline.hash}&cashStatus=${this.formInline.cashStatus}`
+            }else{
+                url = `${this.Ip}/system/out/cppOutRechargeList?pageNum=${this.currentPage}&pageSize=${this.pageSize}`
+            }
+            axios({
+                    method: 'get',
+                    url: url,
+                    responseType: 'json'
+                }).then(response => {
+                    // 请求成功
+                    let res = response.data;
+                    this.tableData =  res.rows 
+                    this.total = res.total
+                    console.log(this.tableData);
+                    this.flagurl = false
+                }).catch(error => {
+                    // 请求失败，
+                    console.log(error);
+                });
 
-    <script src="js/jquery.hDialog.min.js"></script>
-    <script src="js/qrcode.min.js"></script>
-    <script src="js/list.js"></script>
-	
-<style>
-.login-box {
-    width: 80%;
-    margin: 0 auto;
-    overflow-x: hidden;
-}
-</style>
+            }
+
+          }
+    })
+  </script>
+ 
 </html>
