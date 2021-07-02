@@ -297,7 +297,7 @@ function getUserInfo(token) {
     });
     $(".mymoney").text(cppRemain);
      var stradress = cppAddress
-         stradress =  '*****'+ stradress.substr(10,30) + '*****'
+         stradress =  stradress.substr(0,5) + '*************************' + stradress.substr(stradress.length-5,5)
     $(".cppAddress").text(stradress);
     
     CPAddress = cppAddress
