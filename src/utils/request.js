@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 import router from '@/router'
 const nodeEnv = process.env.NODE_ENV
 let baseUrl = ''
@@ -64,7 +65,7 @@ service.interceptors.response.use(
         router.push({ path: '/login' })
       }
       if (res.code === 500) {
-
+        store.commit('BtnReset', false)
       }
       return Promise.reject(
         new Error(res.message || (res.error && res.error.message) || '未知错误')

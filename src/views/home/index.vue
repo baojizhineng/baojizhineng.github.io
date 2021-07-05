@@ -82,6 +82,7 @@
 
 <script>
 import { getUserInfo, sendEmail, cppOutRecharge } from '@/api'
+import { mapState } from 'vuex'
 import QRCode from 'qrcodejs2'
 import ClipboardJS from 'clipboard'
 export default {
@@ -93,7 +94,6 @@ export default {
       cppAddress: '',
       copycppAddress: '',
       dialogFormVisible: false,
-      withdrawalDisabled: false,
       getCode: '获取验证码',
       time: 20,
       isDisabled: false,
@@ -113,7 +113,9 @@ export default {
       }
     }
   },
-
+  computed: {
+    ...mapState(['withdrawalDisabled'])
+  },
   created () {
     this.getUserInfoFn()
   },
@@ -151,17 +153,15 @@ export default {
     withdrawalSubmit (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.withdrawalDisabled = true
+          this.$store.commit('BtnLoding', true)
           cppOutRecharge(this.ruleForm)
             .then(res => {
               this.getUserInfoFn()
               this.withdrawalDisabled = false
               this.dialogFormVisible = false
+            }).catch(() => {
+              // this.withdrawalDisabled = false
             })
-        } else {
-          console.log('error submit!!')
-          this.withdrawalDisabled = false
-          return false
         }
       })
     },
