@@ -43,14 +43,16 @@ service.interceptors.response.use(
     // 接收后台参数状态
     const res = response.data
     const { isShowMessage } = response.config
-    if (!isShowMessage) return res
-    if (res.code === 200) {
-      const message = res.msg
+    const message = res.msg
+    if (isShowMessage && res.code === 200) {
       Message({
         message,
         type: 'success',
         duration: 3 * 1000
       })
+      return res
+    }
+    if (res.code === 200) {
       return res
     } else {
       const message = (res.error && res.error.message) || res.message || res.msg || '未知错误'
@@ -62,7 +64,8 @@ service.interceptors.response.use(
       console.log('拦截器打印错误:', res)
       // 这里可以设置后台返回状态码是500或者是其他,然后重定向跳转
       if (res.code === 401) {
-        router.push({ path: '/login' })
+        router.push('/')
+        localStorage.removeItem('token')
       }
       if (res.code === 500) {
         store.commit('BtnReset', false)
@@ -79,7 +82,7 @@ service.interceptors.response.use(
       // 获取错误码,弹出提示信息,reject()
       const code = error.response.status
       if (code === 401) {
-        // router.push('/login');
+        router.push('/')
         return Promise.reject(
           new Error('登录过期,请重新登录')
         )

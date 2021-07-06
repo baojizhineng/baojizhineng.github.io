@@ -73,7 +73,7 @@
         </el-form-item>
       </el-form>
   <div slot="footer" class="dialog-footer">
-    <el-button type="success" @click="withdrawalSubmit('ruleForm')"  :loading = 'withdrawalDisabled' style="width:100%">确 定</el-button>
+    <el-button type="success" @click="withdrawalSubmit('ruleForm')"  :loading='withdrawalDisabled' style="width:100%">确 定</el-button>
   </div>
 </el-dialog>
   </div>
@@ -115,6 +115,7 @@ export default {
   },
   computed: {
     ...mapState(['withdrawalDisabled'])
+
   },
   created () {
     this.getUserInfoFn()
@@ -124,6 +125,7 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+
     goDetail () {
       this.$router.push({ path: '/detail' })
     },
@@ -157,10 +159,8 @@ export default {
           cppOutRecharge(this.ruleForm)
             .then(res => {
               this.getUserInfoFn()
-              this.withdrawalDisabled = false
+              this.$store.commit('BtnReset', false)
               this.dialogFormVisible = false
-            }).catch(() => {
-              // this.withdrawalDisabled = false
             })
         }
       })
@@ -200,7 +200,7 @@ export default {
             height: 180
           })
 
-          if (cppAddress === null || cppAddress === '') {
+          if (cppAddress === null || cppAddress === '' || typeof (cppAddress) === 'undefined') {
             this.newsCppAddress = ''
             this.cppAddress = ''
           } else {
