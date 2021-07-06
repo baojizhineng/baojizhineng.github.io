@@ -108,7 +108,7 @@ export default {
       }],
       tableData: [],
       formInline: {
-        pageNum: 10,
+        pageNum: 1,
         pageSize: 10
       },
       tableHeight: 500,
