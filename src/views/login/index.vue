@@ -145,6 +145,9 @@ export default {
       }
     }
   },
+  created () {
+    this.loginOrregister = this.$route.query.redirect
+  },
   methods: {
     goLogin () {
       if (this.loginOrregister !== 'register') {

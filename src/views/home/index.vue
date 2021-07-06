@@ -114,7 +114,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['withdrawalDisabled'])
+    ...mapState('user', ['withdrawalDisabled'])
 
   },
   created () {
@@ -155,11 +155,11 @@ export default {
     withdrawalSubmit (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.commit('BtnLoding', true)
+          this.$store.commit('user/BtnLoding', true)
           cppOutRecharge(this.ruleForm)
             .then(res => {
               this.getUserInfoFn()
-              this.$store.commit('BtnReset', false)
+              this.$store.commit('user/BtnReset', false)
               this.dialogFormVisible = false
             })
         }

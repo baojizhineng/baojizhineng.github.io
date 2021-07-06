@@ -63,12 +63,12 @@ service.interceptors.response.use(
       })
       console.log('拦截器打印错误:', res)
       // 这里可以设置后台返回状态码是500或者是其他,然后重定向跳转
-      if (res.code === 401) {
-        router.push('/')
+      if (res.code === 401 || res.code === 403) {
+        router.push({ path: '/', query: { redirect: 'sign' } })
         localStorage.removeItem('token')
       }
       if (res.code === 500) {
-        store.commit('BtnReset', false)
+        store.commit('user/BtnReset', false)
       }
       return Promise.reject(
         new Error(res.message || (res.error && res.error.message) || '未知错误')
