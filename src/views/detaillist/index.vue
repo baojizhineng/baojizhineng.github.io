@@ -53,7 +53,7 @@
                   prop="cashStatus"
                   label="状态"
                   width="180">
-                  <template scope="scope">
+                  <template slot-scope="scope">
                     <p v-if="scope.row.cashStatus == true">完成</p>
                     <p v-if="scope.row.cashStatus == false">未完成</p>
                 </template>
