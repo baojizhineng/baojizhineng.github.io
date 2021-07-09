@@ -7,7 +7,7 @@ let baseUrl = ''
 
 switch (nodeEnv) {
   case 'development':
-    baseUrl = 'https://exchange.gcblock.cn/api'
+    baseUrl = 'http://192.168.2.119:8085'
     break
   case 'production':
     baseUrl = 'https://exchange.gcblock.cn/api'
