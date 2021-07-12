@@ -1,4 +1,8 @@
 <template>
+<div>
+  <div class="backbtn">
+        <el-button @click="goBack"  el-button icon="el-icon-arrow-left" circle></el-button>
+   </div>
   <div class="seekpaswd">
  <el-form
         :model="form"
@@ -53,6 +57,8 @@
         >
       </el-form>
   </div>
+</div>
+
 </template>
 
 <script>
@@ -129,6 +135,9 @@ export default {
       sendUpdateEmail({ email }).then(res => {
         console.log(res)
       })
+    },
+    goBack () {
+      this.$router.push({ path: '/', query: { redirect: 'sign' } })
     }
   }
 }
@@ -151,5 +160,10 @@ export default {
     border-bottom: 1px solid #fff;
     border-radius: 0;
     color:#fff;
+}
+.backbtn {
+    position: absolute;
+    left: 20px;
+    top:20px;
 }
 </style>

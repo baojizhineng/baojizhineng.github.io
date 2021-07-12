@@ -87,7 +87,7 @@
         <el-button
           round
           class="loginbtn"
-          :loding='loginDisbled'
+          :loading='loginDisbled'
           @click="loginSubmit('ruleFormlogin')"
           style="width:100%"
           >登录</el-button

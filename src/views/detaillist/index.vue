@@ -1,6 +1,6 @@
 <template>
  <div class="list">
-   <div class="back">
+   <div class="backbtn">
         <el-button @click="goBack"  el-button icon="el-icon-arrow-left" circle></el-button>
    </div>
   <div class="content">
@@ -154,7 +154,7 @@ export default {
 </script>
 
 <style scoped>
-.back {
+.backbtn {
     padding: 20px;
 }
 .content {

@@ -67,7 +67,8 @@
         </el-form-item>
         <el-form-item prop="amount">
           <el-input
-            v-model="ruleForm.amount"
+            type="number"
+            v-model.number="ruleForm.amount"
             placeholder="请输入提现金额"
           ></el-input>
         </el-form-item>
@@ -109,7 +110,7 @@ export default {
         toAddress: [
           { required: true, message: '请输入钱包地址', trigger: 'blur' }
         ],
-        amount: [{ required: true, message: '请输入提现金额', trigger: 'blur' }]
+        amount: [{ required: true, message: '请输入提现金额', trigger: 'blur' }, { type: 'number', message: '只能输入数字' }]
       }
     }
   },
@@ -277,10 +278,5 @@ export default {
 .logout {
   margin-top: 15px;
 }
-@media screen and (max-width: 767px) and (min-width: 375px){
-.home /deep/ .el-dialog {
-   width: 92%;
-}
 
-}
 </style>
