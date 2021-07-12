@@ -68,6 +68,7 @@
         <el-form-item prop="amount">
           <el-input
             type="number"
+            min=1
             v-model.number="ruleForm.amount"
             placeholder="请输入提现金额"
           ></el-input>
